@@ -1,0 +1,33 @@
+  ;; FOR TESTING ONLY
+  .r /home/disk/shear2/brodzik/IDL/gpm/findStorm
+  .r /home/disk/shear2/brodzik/IDL/gpm/findStormNew
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/set_data_paths
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/set_topo_file
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/read_topo_file
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/initialize_matrices
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/define_grids
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/set_limits
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/read_nc_file
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/def_mask_vars
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/stra_class
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/conv_class
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/shal_iso_class
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/write_mask_vars
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/output_monthly_class_data
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/output_nsr_data
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/output_raccum_data
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/output_cfad_data
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/output_stra_data
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_subgrid_storm
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_storm_info
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_core_dims
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/inc_echo_count
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_str_shape
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_class_stats
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_rain_accum
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_rain_statistics
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_cfad
+  .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/allStorms_v11m_v06
+
+.r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/run_allStorms_sam_v11m_v06
+run_allStorms_sam_v11m_v06

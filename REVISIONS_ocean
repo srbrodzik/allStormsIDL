@@ -1,0 +1,57 @@
+REVISION HISTORY
+
+original code in /home/disk/shear2/brodzik/matlab/ULLI.stormStats/
+This code have a slight modification in the coding to identify individual storms
+The id is performed using findstorm code to locate first all contiguous pixels
+that corresponds to a reflectivity greater than zero and then, after the id of 
+individual cluster of pixels it is applied the theresholds to account for the 
+classification (e.g., convective pixels and reflectivity >= 40 dBZ)
+  
+v3 update: this code now does the classification into a broad stratiform, deep convective and
+wide convective containing storms using the respective theresholds
+
+v5 update: change the definition of the threshold used for Deep convective core
+           as all events that have higher altitude greater than 10km. In addition, 
+           the output file now replace the column of height of the core by the higher 
+           and lower level of the storm
+  
+v54 is a run with a new set of processed data (there were mismatch in the interpolated data)
+    There were no changes into the code!     
+  
+v6 this is the code that aggregates all computations from Identifing all storms, compute statistics
+   aggregates accumulated maps, compute rainfall accumulations and lighting maps.
+
+v7 this is the code that removes all lighting maps info (there is
+no LIS on the GPM) and all references to latent heating
+Also made SH (shallow isolated) calculations optional since those
+calcs are done in LandRuns version of allStorms
+
+v8 comments out all references to ZR (R11) rain
+
+v9 uses uncompressed netcdf files as input and adds in some
+           mods dealing with new naming
+           convention for ex_data_v05 input files
+   changed some input dim and var names due to new file format
+   removed 'date' and 'time' vars in code and replaced them with
+           'datetime' var
+  
+v9_uw uses rain_type_uw for calculations
+  
+v10m outputs masks for BSR, DCC, DWC, WCC cores using moderate thresholds
+     change all 'gt 2' pixel checks to 'ge 2'
+     add degPix to all lat/lon dimensions
+     replace 10,20,30,40 with STRA,CONV,OTHER,SHIS
+  
+v11m corrects stats_class outputs by
+     putting intializations of RTo_xxxx inside of main loop
+     using different variable names for NSR and R11 RTo_xxxx core variables
+     added test for depth of CV (old way just checked top ht) to test for DCC
+
+v11m_v06 uses native v06 raintype in calcs
+     ADDED TEST FOR DCC TO BE BASED ON dim_topCV AND dim_hgtCV
+        (old way just checked dim_topCV)
+  
+v12m_v06 Modularize entire code
+     Corrected get_rain_accum - in loop for creating accum rain rate vectors,
+          last else: replace raintype[col,row] with raintypeFULL[col,row]
+
