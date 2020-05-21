@@ -22,18 +22,19 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
      cta_strt,cta_conv,cta_ShIs,rain_type3D,hgts_3D
   COMMON maskBlock,bsr_mask,dcc_mask,dwc_mask,wcc_mask,shi_mask,storm_mask
 
-  resolve_routine,'get_subgrid_storm'   ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_subgrid_storm
-  resolve_routine,'get_storm_info'      ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_storm_info
-  resolve_routine,'get_core_dims'       ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_core_dims
-  resolve_routine,'inc_echo_count'      ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/inc_echo_count
-  resolve_routine,'get_str_shape'       ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_str_shape
-  resolve_routine,'get_class_stats'     ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_class_stats
-  resolve_routine,'get_rain_accum'      ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_rain_accum
-  resolve_routine,'get_rain_statistics' ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_rain_statistics
-  resolve_routine,'get_cfad'            ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/OceanRunsTest/get_cfad
+  ;;resolve_routine,'get_subgrid_storm'   ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/ModularCode/get_subgrid_storm
+  ;;resolve_routine,'get_storm_info'      ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/ModularCode/get_storm_info
+  ;;resolve_routine,'get_core_dims'       ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/ModularCode/get_core_dims
+  ;;resolve_routine,'inc_echo_count'      ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/ModularCode/inc_echo_count
+  ;;resolve_routine,'get_str_shape'       ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/ModularCode/get_str_shape
+  ;;resolve_routine,'get_class_stats'     ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/ModularCode/get_class_stats
+  ;;;;resolve_routine,'get_rain_accum'      ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/ModularCode/get_rain_accum
+  ;;resolve_routine,'get_raccum'          ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/ModularCode/get_raccum
+  ;;resolve_routine,'get_rain_statistics' ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/ModularCode/get_rain_statistics
+  ;;resolve_routine,'get_cfad'            ;; .r /home/disk/shear2/brodzik/IDL/gpm/allStorms/ModularCode/get_cfad
 
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
 
   ;; initialize num_bsr
   num_bsr = 0
@@ -46,7 +47,6 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
 
      ;; go through each storm that meets the npix criteria for BSR
      for ss=0l,ctaBrdStr-1 do begin  ;; TESTING - use ss=9
-        print,'In stra_class: ss = ',ss
 
         ;; identify subgrid containing storm
         refl_thres = 0.
@@ -60,8 +60,11 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
         ;; get storm area
         get_storm_info,pixelsumST,singlestormgridStratiform,lonsFull_sub,$
                        latsFull_sub,area_ST,dim_hgtST,dim_topST,dim_botST
-        print,'Back from get_storm_info:'
-        help,area_ST,dim_hgtST,dim_topST,dim_botST
+        if pixelsumST ge 2 and DEBUG then begin
+           print,'In stra_class: ss = ',ss
+           print,'Back from get_storm_info:'
+           help,area_ST,dim_hgtST,dim_topST,dim_botST
+        endif 
        
         ;; if storm meets BSR criteria
         if area_ST ge thr_aST then begin ;; TESTING - true for ss=9
@@ -76,14 +79,14 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
            if nanCnt gt 0 then grid_ST[searchNaN_ST]=0l
                  
            ;; identify only volumes with more than npix_aST (~1350 pixels)
-           donde_BrdStr2=where(npix_ST gt 1000l,ctaBrdStr2) ;;1000 pixels just to be conservative
-           print,'In stra_class: ctaBrdStr2 = ',ctaBrdStr2
+           ;;    use 1000 pixels just to be conservative
+           donde_BrdStr2=where(npix_ST gt 1000l,ctaBrdStr2) 
+           if DEBUG then print,'In stra_class: ctaBrdStr2 = ',ctaBrdStr2
 
            ;; flag used to calc FULL storm stats only once
            firstTimeThru = 1
 
-           for ssST=0l,ctaBrdStr2-1 do begin   ;; TESTING - use ssST = 0
-              print,'In stra_class: ssST = ',ssST
+           for ssST=0l,ctaBrdStr2-1 do begin
 
               get_core_dims,id_ST,npix_ST,grid_ST,donde_BrdStr2,ssST,$
                             nlonsFull,nlatsFull,lonsFull_sub,latsFull_sub,$
@@ -93,6 +96,7 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
 
               ;; identify the BSR contiguous area
               if area_BS ge thr_aST then begin 
+                 if DEBUG then print,'In stra_class: ssST = ',ssST
 
                  ;;-----------------------------------------
                  ;; Increment core count and update BSR mask
@@ -122,17 +126,20 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
                  ;; pixelsum is number of pixels in a 2D proj
                  donde=where(grid_sum gt 0,pixelsum)
                  
-                 ;; Increment storm count and update storm mask
-                 inc_echo_count,num_storm,d_lonsFull,d_latsFull,donde,storm_mask
-
                  get_str_shape,singlestormgrid_Full,lonsFull_sub,latsFull_sub,$
                                pixelsum,cen_lon,cen_lat,area,dim_lon,dim_lat,$
                                dim_top,dim_bot,terr_hgt,land_ocean
-                 print,'Back from get_str_shape:'
-                 help,cen_lon,cen_lat,area,dim_top,dim_bot,dim_lon,dim_lat,terr_hgt,land_ocean
+                 if DEBUG then begin
+                    print,'Back from get_str_shape:'
+                    help,cen_lon,cen_lat,area,dim_top,dim_bot,dim_lon,dim_lat,terr_hgt,land_ocean
+                 endif 
                  tmp_shape=[cen_lon,cen_lat,area,dim_top,dim_bot,dim_lon,dim_lat,terr_hgt,land_ocean]
-                 help,tmp_shape
-      
+
+                 ;;--------------------------------------------
+                 ;; Increment storm count and update storm mask
+                 ;;--------------------------------------------
+                 inc_echo_count,num_storm,d_lonsFull,d_latsFull,donde,storm_mask
+
                  ;;----------------------------------------
                  ;; Statistics for NSR rain types and rates
                  ;;----------------------------------------
@@ -155,20 +162,18 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
                  ;;------------------------------------------------------
                  ;; Rainfall accumulation for FULL STORM - only done once
                  ;;------------------------------------------------------
-                 
-                 ;;if area ne areaIsFULL and cen_lon ne lonCIsFULL and cen_lat ne latCIsFULL then begin
                  if firstTimeThru eq 1 then begin
                     freqArray=lonarr(nlonsC,nlatsC)
                     rainArray=fltarr(nlonsF,nlatsF)
                     nRaiArray=intarr(nlonsF,nlatsF)
-                    get_rain_accum,pixelsum,donde,nlonsFull,SrfRain_FULL,raintypeFULL,$
-                                   grid_storm_FULL,lonsFull_sub,latsFull_sub,$
-                                   RTo_stra_NSR,RTo_conv_NSR,RTo_othe_NSR,RTo_noRa_NSR,$
-                                   ctaStra_NSR,ctaConv_NSR,ctaOthe_NSR,ctaNoRa_NSR,$
-                                   freqArray,rainArray,nRaiArray
-                    freq_Full[*,*,3] = freqArray
-                    rain_NSRFull[*,*,3] = rainArray
-                    nRai_NSRFull[*,*,3] = nRaiArray
+                    get_raccum,pixelsum,donde,nlonsFull,SrfRain_FULL,raintypeFULL,$
+                               grid_storm_FULL,lonsFull_sub,latsFull_sub,$
+                               RTo_stra_NSR,RTo_conv_NSR,RTo_othe_NSR,RTo_noRa_NSR,$
+                               ctaStra_NSR,ctaConv_NSR,ctaOthe_NSR,ctaNoRa_NSR,$
+                               freqArray,rainArray,nRaiArray
+                    freq_Full[*,*,3] = freq_Full[*,*,3] + freqArray
+                    rain_NSRFull[*,*,3] = rain_NSRFull[*,*,3] + rainArray
+                    nRai_NSRFull[*,*,3] = nRai_NSRFull[*,*,3] + nRaiArray
                     undefine,freqArray
                     undefine,rainArray
                     undefine,nRaiArray
@@ -189,14 +194,14 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
                  freqArray=lonarr(nlonsC,nlatsC)
                  rainArray=fltarr(nlonsF,nlatsF)
                  nRaiArray=intarr(nlonsF,nlatsF)
-                 get_rain_accum,pixelsumST_ST,dondeST_ST,nlonsFull,SrfRain_FULL,raintypeFULL,$
-                                grid_storm_FULL,lonsFull_sub,latsFull_sub,$
-                                RTo_stra_NSR_ST,RTo_conv_NSR_ST,RTo_othe_NSR_ST,RTo_noRa_NSR_ST,$
-                                ctaStra_NSR_ST,ctaConv_NSR_ST,ctaOthe_NSR_ST,ctaNoRa_NSR_ST,$
-                                freqArray,rainArray,nRaiArray
-                 freq_Core[*,*,3] = freqArray
-                 rain_NSRCore[*,*,3] = rainArray
-                 nRai_NSRCore[*,*,3] = nRaiArray
+                 get_raccum,pixelsumST_ST,dondeST_ST,nlonsFull,SrfRain_FULL,raintypeFULL,$
+                            grid_storm_FULL,lonsFull_sub,latsFull_sub,$
+                            RTo_stra_NSR_ST,RTo_conv_NSR_ST,RTo_othe_NSR_ST,RTo_noRa_NSR_ST,$
+                            ctaStra_NSR_ST,ctaConv_NSR_ST,ctaOthe_NSR_ST,ctaNoRa_NSR_ST,$
+                            freqArray,rainArray,nRaiArray
+                 freq_Core[*,*,3] = freq_Core[*,*,3] + freqArray
+                 rain_NSRCore[*,*,3] = rain_NSRCore[*,*,3] + rainArray
+                 nRai_NSRCore[*,*,3] = nRai_NSRCore[*,*,3] + nRaiArray
                  undefine,freqArray
                  undefine,rainArray
                  undefine,nRaiArray
@@ -213,16 +218,14 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
                  ;;-------------------------------------------
                  ;; CFAD count for FULL Storm - done only once
                  ;;-------------------------------------------
-                 ;;if area ne areaIsFULL and cen_lon ne lonCIsFULL and cen_lat ne latCIsFULL then begin
                  if firstTimeThru eq 1 then begin
                     cfad=lonarr(n_refls,nlevels)
                     get_cfad,refl_3D_FULL,hgts_3D_FULL,nlonsFull,nlatsFull,w_idF,cta_Full,npix_str,$
                              donde_BrdStr,ss,cfad
-                    CFAD_Full[*,*,3] = cfad
+                    CFAD_Full[*,*,3] = CFAD_Full[*,*,3] + cfad
                     undefine,cfad
                  endif
-                 ;; set these after first time through so FULL storm data not recomputed
-                 ;;areaIsFULL=area & lonCIsFULL=cen_lon & latCIsFULL=cen_lat
+                 ;; set this after first time through so FULL storm data not computed again
                  firstTimeThru = 0
                        
                  ;;-------------------------------------
@@ -231,12 +234,12 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
                  cfad=lonarr(n_refls,nlevels)
                  get_cfad,refl_3D_FULL,hgts_3D_FULL,nlonsFull,nlatsFull,w_idST,cta_ST,npix_ST,$
                           donde_BrdStr2,ssST,cfad
-                 CFAD_Core[*,*,3] = cfad
+                 CFAD_Core[*,*,3] = CFAD_Core[*,*,3] + cfad
                  undefine,cfad
                  
-                 ;;------------------------------------------
-                 ;;store the info for monthly_class directory
-                 ;;------------------------------------------
+                 ;;----------------------------------------------------------
+                 ;;store the info for monthly_class & stats_class directories
+                 ;;----------------------------------------------------------
                  info_BS=[info_BS,orbit+'.'+datetime+'.'+strtrim(string(num_bsr),2)]
 
                  shape_Core_BS=[[shape_Core_BS],[tmp_shapeBS]]
@@ -248,9 +251,6 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
                  rainTypeCore_BS=[[rainTypeCore_BS],[statsRain_BS]]
                  rainTypeFull_BS=[[rainTypeFull_BS],[statsRain]]
 
-                 ;;----------------------------------------
-                 ;;store the info for stats_class directory
-                 ;;----------------------------------------
                  rainCore_BS_NSR=[[rainCore_BS_NSR],[tmp_statsRain_NSR_BS]]
                  rainFull_BS_NSR=[[rainFull_BS_NSR],[tmp_statsRain_NSR]]
 
@@ -258,11 +258,8 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
                  undefine,dim_latBS
                  undefine,hgt_sumBS
                  undefine,grid_sum
-                 ;;undefine,storm_mask_sub ;;new
                  undefine,donde
                  undefine,pixelsum
-                 ;;undefine,lon_sum
-                 ;;undefine,lat_sum                 
                  undefine,hgt_sum
                  undefine,tmp_shapeBS
                  undefine,tmp_shape
@@ -300,22 +297,16 @@ pro stra_class,id_storm,npix_str,grid_storm,num_storm
 
         endif      ;;endif for stratiforms areas (area_ST) > thr_aST
         
-        ;;undefine,total_lonFull
         undefine,d_lonsFull
-        ;;undefine,total_latFull
         undefine,d_latsFull
-        ;;undefine,singlestormgrid ;;new
         undefine,singlestormgrid_Full
         undefine,lonsFull_sub
         undefine,latsFull_sub
         undefine,singlestormgridStratiform
-        ;;undefine,grid_sumST
-        ;;undefine,dondeST
-        ;;undefine,s_idF
         undefine,w_idF
 
      endfor        ;;endfor loop thru stratiform volumes greater than 1000 pixels
      
   endif            ;;end if cta_strt ne 0 and ctaBrdStr gt 0
-        
+
 end

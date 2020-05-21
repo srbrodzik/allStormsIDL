@@ -5,7 +5,7 @@ pro inc_echo_count,num,d_lonsFull,d_latsFull,dondeRT_RT,mask
   ;; INTERNAL: mask_sub
   
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
 
   num = num + 1
   if makeCoreMasks then begin

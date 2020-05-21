@@ -5,7 +5,7 @@ pro read_nc_file,ncid,lonDimID,latDimID,timDimID
      cta_strt,cta_conv,cta_ShIs,rain_type3D,hgts_3D
 
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
 
   ;; get file dimensions
   lonDimID = ncdf_dimid(ncid,'lon')

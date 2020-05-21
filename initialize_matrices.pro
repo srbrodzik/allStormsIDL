@@ -22,7 +22,7 @@ pro initialize_matrices
   COMMON fineBlock,lonsF,latsF,nlonsF,nlatsF,rain_NSRFull,nRai_NSRFull,rain_NSRCore,nRai_NSRCore
 
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
   
   ;; initialize elements of infoBlock
   info_DC=strarr(1)

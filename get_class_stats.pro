@@ -5,7 +5,7 @@ pro get_class_stats,raintypeFULL,SrfRain_FULL,donde,cen_lon,cen_lat,rain_moment,
      cta_strt,cta_conv,cta_ShIs,rain_type3D,hgts_3D
   
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
   
   ;; get type of rain in each 2D pixel that composes the storm
   stratconv=raintypeFULL[donde]

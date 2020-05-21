@@ -5,7 +5,7 @@ pro define_grids,limits
      rain_NSRFull,nRai_NSRFull,rain_NSRCore,nRai_NSRCore
 
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
   
   lonsC=findgen(fix(1l+(limits[3]-limits[1])/res))*res+limits[1]
   latsC=findgen(fix(1l+(limits[2]-limits[0])/res))*res+limits[0]

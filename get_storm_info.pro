@@ -10,7 +10,7 @@ pro get_storm_info,pixelsumRT,singlestormgridRaintype,lonsFull_sub,$
      cta_strt,cta_conv,cta_ShIs,rain_type3D,hgts_3D
 
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
 
   if pixelsumRT ge 2 then begin ;;this is to avoid possible events with zero convective pixels
 
@@ -33,6 +33,7 @@ pro get_storm_info,pixelsumRT,singlestormgridRaintype,lonsFull_sub,$
      area_RT=0.
      dim_hgtRT=0.
      dim_topRT=0.
+     dim_botRT=0.
      
   endelse
 

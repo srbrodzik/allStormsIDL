@@ -13,10 +13,8 @@ pro get_str_shape,singlestormgrid_Full,lonsFull_sub,latsFull_sub,$
      cta_strt,cta_conv,cta_ShIs,rain_type3D,hgts_3D
 
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
 
-  print,'Top of get_str_shape'
-  
   ;; find center of storm area
   lon_sum=total(total(singlestormgrid_Full,2),2)
   cen_lon=(max(lonsFull_sub[where(lon_sum gt 0l)])+min(lonsFull_sub[where(lon_sum gt 0l)]))/2.
@@ -43,8 +41,5 @@ pro get_str_shape,singlestormgrid_Full,lonsFull_sub,latsFull_sub,$
   terr_hgt=DEM[id_top1,id_top2]
   ;; set ocean/land mask (ocean=0 or land=1)
   if terr_hgt eq 0 then land_ocean=0 else land_ocean=1
-
-  print,'Bottom of get_str_shape:'
-  help,cen_lon,cen_lat,area,dim_top,dim_bot,dim_lon,dim_lat,terr_hgt,land_ocean
 
 end

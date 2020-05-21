@@ -1,7 +1,7 @@
 pro def_mask_vars,ncid,lonDimID,latDimID,timDimID
 
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
   
   ;; put input file in define mode
   ncdf_control,ncid,/redef

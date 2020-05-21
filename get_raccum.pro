@@ -1,8 +1,8 @@
-pro get_rain_accum,pixsum,don,nlonsFull,SrfRain_FULL,raintypeFULL,$
-                   grid_storm_FULL,lonsFull_sub,latsFull_sub,$
-                   RTo_stra,RTo_conv,RTo_othe,RTo_noRa,$
-                   ctaStra,ctaConv,ctaOthe,ctaNoRa,$
-                   freqArray,rainArray,nRaiArray
+pro get_raccum,pixsum,don,nlonsFull,SrfRain_FULL,raintypeFULL,$
+               grid_storm_FULL,lonsFull_sub,latsFull_sub,$
+               RTo_stra,RTo_conv,RTo_othe,RTo_noRa,$
+               ctaStra,ctaConv,ctaOthe,ctaNoRa,$
+               freqArray,rainArray,nRaiArray
 
   ;; TO DO
   ;; Check why nlatsFull is not required for calculating 'col' and 'row'

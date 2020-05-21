@@ -17,7 +17,7 @@ pro get_subgrid_storm,id_storm,npix_str,grid_storm,donde_rtype,ss,$
      cta_strt,cta_conv,cta_ShIs,rain_type3D,hgts_3D
 
   ;;include constants
-  @constants_ocean.pro
+  @constants.pro
   
   ;; get id_storm
   s_idF=id_storm[donde_rtype[ss]]

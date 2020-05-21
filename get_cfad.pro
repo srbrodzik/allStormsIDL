@@ -7,7 +7,7 @@ pro get_cfad,refl_3D_FULL,hgts_3D_FULL,nlonsFull,nlatsFull,w_id,cta,npix,$
      cta_strt,cta_conv,cta_ShIs,rain_type3D,hgts_3D
 
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
 
   refl_SingleStorm=fltarr(nlonsFull,nlatsFull,nlevels)
   refl_SingleStorm[*,*,*]=refl_3D_fillValue

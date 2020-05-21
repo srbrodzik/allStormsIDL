@@ -9,7 +9,7 @@ pro get_rain_statistics,RTo_stra,RTo_conv,RTo_othe,RTo_noRa,$
   ;; Is there a system routine called 'get_rain_stats'?
   
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
 
   total_RainAll = RTo_stra + RTo_conv + RTo_othe + RTo_noRa
   total_RainCSs = RTo_stra + RTo_conv

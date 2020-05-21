@@ -15,7 +15,7 @@ pro get_core_dims,id_RT,npix_RT,grid_RT,donde_rtype,ssRT,$
      cta_strt,cta_conv,cta_ShIs,rain_type3D,hgts_3D
 
   ;; include constants
-  @constants_ocean.pro
+  @constants.pro
 
   ;; maybe assign donde_rtype[ssRT] to a separate variable
   s_idRT=id_RT[donde_rtype[ssRT]]
